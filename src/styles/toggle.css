@@ -1,0 +1,40 @@
+/* toggle styles */
+.toggle {
+    width:45px;
+    height:20px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    cursor:pointer;
+    transition: all 0.3s ease;
+
+}
+
+.toggle.on {
+    background: white;
+    justify-content: flex-end;
+}
+
+.toggle.off {
+    background:white;
+    justify-content: flex-start;
+}
+
+.toggle.disabled {
+    opacity: 0.5;
+    cursor:not-allowed;
+}
+
+.toggle-knob {
+    background:var(--light-blue);
+    width: 60%;
+    border-radius: 999px;
+    height:100%;
+    aspect-ratio: 1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease;
+}
+
+.toggle-knob:hover {
+    opacity:0.8;
+}

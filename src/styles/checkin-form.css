@@ -1,0 +1,21 @@
+.checkin-form {
+    display: flex;
+    flex-direction: column;
+    gap:25px;
+    margin: 25px 0;
+}
+
+.checkin-form label {
+    margin-bottom:8px;
+}
+
+.checkin-form > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkin-form-button-container {
+    justify-content: flex-end;
+    flex-direction: row !important;
+    gap:8px;
+}

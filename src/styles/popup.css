@@ -1,0 +1,32 @@
+.popup-background {
+    background:rgba(0, 0, 0, 0.3);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-container {
+    background:white;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+    min-width: 450px;
+    border-top: 15px solid var(--dark-blue);
+    border-radius: 5px;
+    margin-top: -7em;
+}
+
+.popup-header {
+    text-align: center;
+    border-bottom: 1px solid lightgray;
+    padding: 25px 45px;
+}
+
+.popup-body {
+    padding: 25px 45px;
+}
+
+.popup-background.close {
+    display:none;
+}

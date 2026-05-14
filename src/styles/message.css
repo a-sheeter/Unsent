@@ -1,0 +1,88 @@
+/* form */
+
+.form-container {
+    border-radius: 10px;
+    box-shadow: 0 0 8px 1px lightgray;
+}
+
+.form-header {
+    background: var(--dark-blue);
+    border-radius: 10px 10px 0 0;
+    color:white;
+    padding: 0 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:15px;
+}
+
+.message-form {
+    display: flex;
+    flex-direction: column;
+    gap:15px;
+}
+
+.form-group {
+    border-bottom: 1px solid lightgray;
+    padding: 0 45px 15px;
+}
+
+.button-group {
+    display:flex;
+    justify-content: end;
+    padding: 15px 45px 30px;
+}
+
+.message-form label {
+    margin-right: 10px;
+}
+
+.message-form input, .message-form textarea {
+    border:none;
+}
+
+.message-form input {
+    width:75%;
+}
+
+.message-form input:focus, .message-form textarea:focus {
+    outline:none;
+}
+
+.message-form textarea {
+    padding-top:10px;
+    width: 100%;
+    min-height: 350px;
+    field-sizing: content;
+    resize:none;
+}
+
+/* form prompts */
+
+.prompt-box {
+    color: rgb(158, 158, 158);
+    font-style:italic;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.prompt-box button {
+    color: rgb(158, 158, 158);
+    font-style: italic;
+    text-decoration:underline;
+    transition: color 0.2s ease;
+    display:flex;
+    align-items: center;
+    gap:3px;
+}
+
+.prompt-box button:hover {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    gap:15px;
+}

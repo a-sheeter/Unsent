@@ -1,0 +1,48 @@
+
+/* button styles */
+button {
+    background: none;
+    border: none;
+    cursor:pointer;
+}
+
+.btn {
+    padding: 10px 25px;
+    border-radius: 5px;
+}
+
+/* main (dark blue) */
+.main-btn {
+    background: var(--dark-blue);
+    color:white;
+    transition: background 0.2s ease;
+}
+
+.main-btn:hover {
+    background: var(--medium-blue);
+}
+
+/* secondary (medium blue) */
+
+.secondary-btn {
+    background:var(--medium-blue);
+    color:white;
+    transition: background 0.2s ease;
+}
+
+.secondary-btn:hover {
+    background:var(--dark-blue);
+}
+
+/*outline*/
+.outline-btn {
+    outline: 3px solid var(--medium-blue);
+    outline-offset: -3px;
+    color:var(--medium-blue);
+    transition:all 0.2s ease;
+}
+
+.outline-btn:hover {
+    outline: 3px solid var(--dark-blue);
+    color:var(--dark-blue);
+}

@@ -1,0 +1,148 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+}
+
+:root {
+    --dark-blue: #1B2D48;
+    --medium-blue: #3C649F;
+    --light-blue: #83AFF0;
+}
+
+body {
+    margin:0;
+}
+
+/*general styles*/
+
+.main-container {
+    padding:45px;
+}
+
+.justify-content-end {
+    justify-content: end;
+}
+
+.center-screen {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*font styles*/
+
+h2 {
+    font-size: 25px;
+    margin: 5px 0;
+}
+
+.dark-blue-text {
+    color: var(--dark-blue);
+}
+
+/*nav styles*/
+
+.nav {
+    padding: 15px 45px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--dark-blue);
+    font-weight: 700;
+    position: relative;
+}
+
+.nav-div-width {
+    width:160px;
+    display: flex;
+    align-items: center;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding:0;
+}
+
+.nav a {
+    text-decoration: none;
+    color: var(--dark-blue);
+}
+
+.nav::after {
+    content: "";
+    background: #83AFF0;
+    background: linear-gradient(90deg,rgba(131, 175, 240, 1) 0%, rgba(71, 121, 196, 1) 50%, rgba(60, 100, 159, 1) 100%);
+    height: 15px;
+    width: 100%;
+    position: absolute;
+    left:0;
+    bottom:-18px;
+}
+
+@media screen and (max-width:766px) {
+    .desktop-nav {
+        display:none;
+    }
+}
+
+/* Overlay backdrop */
+.overlay {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index:5;
+}
+
+/* Mobile menu  */
+
+.mobile-nav {
+    display:flex;
+    align-items: center;
+}
+
+@media screen and (min-width:766px) {
+    .mobile-nav {
+        display:none;
+    }
+}
+
+.mobile-menu {
+    display: none;
+    flex-direction:column;
+    position:fixed;
+    top:0;
+    right:0;
+    height:100vh;
+    width:250px;
+    background:white;
+    z-index:10;
+    transform: translateX(100%);
+    transition: transform 0.5s ease;
+    padding-top:25px;
+}
+
+.mobile-menu.open {
+    display:flex;
+    flex-direction: column;
+    transform: translateX(0);
+}
+
+.mobile-menu.open a {
+    border-bottom: 1px solid lightgray;
+    padding:15px 20px;
+    transition: background 0.3s ease;
+}
+
+.mobile-menu.open a:hover {
+    background:rgba(131, 175, 240, .2);
+}
+
+#mobile-nav-icon {
+    padding-left: 15px;
+}
