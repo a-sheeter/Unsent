@@ -1,11 +1,28 @@
-import PopupContainer from "../components/PopupContainer";
+import { useEffect } from "react";
+import { supabase } from "../../utilities/supabase";
 
 import "../styles/popup.css";
 
 export default function Test(){
+
+    useEffect(() => {
+        getContacts();
+    }, []);
+
+    async function getContacts() {
+        const { data, error } = await supabase.from("contacts").select();
+
+        if (error) {
+            console.log(error);
+            return;
+        }
+        console.log(import.meta.env.VITE_SUPABASE_URL)
+        console.log(import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY)
+                data.forEach((contact) => {
+            console.log(contact.name);
+        });
+    }
     return (
-        <div className="main-container">
-            <PopupContainer title="Emotional Check-In">Hello</PopupContainer>
-        </div>
+        <p>Hello</p>
     )
 }
