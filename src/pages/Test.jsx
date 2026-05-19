@@ -16,11 +16,8 @@ export default function Test(){
             console.log(error);
             return;
         }
-        console.log(import.meta.env.VITE_SUPABASE_URL)
-        console.log(import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY)
-                data.forEach((contact) => {
-            console.log(contact.name);
-        });
+
+        console.table(data)
     }
     return (
         <p>Hello</p>
