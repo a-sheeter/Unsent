@@ -9,6 +9,8 @@ export default function Signup() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [successMessage, setSuccessMessage] = useState("");
+
     async function handleSignup(e) {
         e.preventDefault();
 
@@ -43,6 +45,13 @@ export default function Signup() {
                 }
         }
         console.log("User created successfully.")
+
+        setName("");
+        setUsername("");
+        setEmail("");
+        setPassword("");
+
+        setSuccessMessage("Account created successfully! You can now login.");
     }
 
     return (
@@ -79,6 +88,15 @@ export default function Signup() {
                 
                 <Button className="main-btn btn" text="Create Account" type="submit"/>
             </form>
+
+            {
+                successMessage && (
+                    <div>
+                        <p>{successMessage}</p>
+                        <a href="/login">Login here</a>
+                    </div>
+                )
+            }
         </div>
     </>
 )

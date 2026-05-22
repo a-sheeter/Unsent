@@ -5,6 +5,8 @@ import Toggle from "../components/Toggle";
 import PopupContainer from "../components/PopupContainer";
 import CheckinForm from "../components/CheckinForm";
 
+import "../styles/message.css";
+
 export default function Message() {
 
     /* set meta title */
