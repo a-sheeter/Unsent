@@ -33,6 +33,10 @@ body {
 
 /*font styles*/
 
+h1 {
+    font-size: 30px;
+}
+
 h2 {
     font-size: 25px;
     margin: 5px 0;
@@ -40,6 +44,10 @@ h2 {
 
 .dark-blue-text {
     color: var(--dark-blue);
+}
+
+.gray-text {
+    color:gray;
 }
 
 /*nav styles*/
