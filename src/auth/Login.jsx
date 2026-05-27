@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { supabase } from "../../utilities/supabase";
 
+import GenericNav from "../components/GenericNav";
 import Button from "../components/Button";
 
 export default function Login() {
@@ -14,7 +15,7 @@ export default function Login() {
     async function handleLogin(e) {
         e.preventDefault();
 
-        const { data, error } = 
+        const { data, error } =
             await supabase.auth.signInWithPassword({
                 email,
                 password
@@ -28,11 +29,12 @@ export default function Login() {
         console.log("Logged in:", data.user);
 
         //redirect user
-        window.location.href="/";
+        window.location.href = "/";
     }
 
     return (
         <>
+            <GenericNav />
             <div className="main-container">
                 <form onSubmit={handleLogin}>
                     <input
@@ -40,16 +42,16 @@ export default function Login() {
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        />
+                    />
 
                     <input
                         type="password"
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        />
+                    />
 
-                    <Button text="Login" className="main-btn btn" type="submit"/>
+                    <Button text="Login" className="main-btn btn" type="submit" />
 
                     {
                         errorMessage && <p>{errorMessage}</p>

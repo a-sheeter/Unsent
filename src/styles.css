@@ -24,6 +24,10 @@ body {
     justify-content: end;
 }
 
+.justify-content-center {
+    justify-content: center !important;
+}
+
 .center-screen {
     height: 80vh;
     display: flex;

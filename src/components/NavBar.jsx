@@ -1,5 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+
+import { supabase } from "../../utilities/supabase";
+
+import Button from "../components/Button";
+
 import logo from "../assets/unsent_v1.png";
 import profileIcon from "../assets/circle-user-solid-full.svg";
 import unsentIcon from "../assets/unsent_icon.png";
@@ -7,12 +12,25 @@ import unsentIcon from "../assets/unsent_icon.png";
 export default function NavBar() {
     const [menuOpen, setMenuOpen] = useState(false);
 
+    const navgiate = useNavigate();
+
     function toggleMenu() {
         setMenuOpen(prev => !prev);
     }
 
     function closeMenu() {
         setMenuOpen(false);
+    }
+
+    async function handleLogout() {
+        const { error } = await supabase.auth.signOut();
+
+        if (error) {
+            console.log(error);
+            return;
+        }
+
+        Navigate("/login");
     }
 
     return (
@@ -25,6 +43,9 @@ export default function NavBar() {
                     </li>
                     <li>
                         <Link to="/archive">Archive</Link>
+                    </li>
+                    <li>
+                        <Button text="Log out" className="main-btn btn" onClick={handleLogout}/>
                     </li>
                 </ul>
             </div>
