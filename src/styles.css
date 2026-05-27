@@ -20,12 +20,27 @@ body {
     padding:45px;
 }
 
+.flex-row {
+    display:flex;
+    flex-direction: row;
+}
+
+.flex-column {
+    display:flex;
+    flex-direction: column;
+}
+
 .justify-content-end {
     justify-content: end;
 }
 
 .justify-content-center {
     justify-content: center !important;
+}
+
+.space-between {
+    justify-content: space-between;
+    align-items: center;
 }
 
 .center-screen {
