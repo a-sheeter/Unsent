@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { supabase } from "../../utilities/supabase";
+import { Link } from "react-router-dom";
 
 import Button from "../components/Button";
+import GenericNav from "../components/GenericNav";
+
+import "../styles/login-signup.css";
 
 export default function Signup() {
     const [name, setName] = useState("");
@@ -56,38 +60,38 @@ export default function Signup() {
 
     return (
     <>
-        <div className="main-container">
+        <GenericNav/>
+        <div className="main-container center-screen login-signup">
             <form onSubmit={handleSignup}>
+                <label htmlFor="name">Name</label>
                 <input
                     type="text"
-                    placeholder="Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     />
-                
+                <label htmlFor="username">Username</label>
                 <input
                     type="text"
-                    placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     />
-
+                <label htmlFor="email">Email</label>
                 <input
                     type="email"
-                    placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     />
 
+                <label htmlFor="password">Password</label>
                 <input
                     type="password"
-                    placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     />
                 
                 <Button className="main-btn btn" text="Create Account" type="submit"/>
             </form>
+            <p>Already have an account? <Link to="/login">Login Now</Link></p>
 
             {
                 successMessage && (
