@@ -3,6 +3,8 @@ import { supabase } from "../../utilities/supabase";
 
 import Button from "../components/Button";
 
+import "../styles/table.css";
+
 export default function Contacts() {
 
     const [contacts, setContacts] = useState([]);
