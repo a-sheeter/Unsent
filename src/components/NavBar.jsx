@@ -44,9 +44,6 @@ export default function NavBar() {
                     <li>
                         <Link to="/archive">Archive</Link>
                     </li>
-                    <li>
-                        <Button text="Log out" className="main-btn btn" onClick={handleLogout}/>
-                    </li>
                 </ul>
             </div>
 
@@ -54,7 +51,10 @@ export default function NavBar() {
             <Link to="/"><img width="175" src={logo} alt="logo" /></Link>
 
             {/* Profile */}
-            <div className="nav-div-width justify-content-end desktop-nav"><Link to="/profile"><img width="40" src={profileIcon} alt="Profile Icon" /></Link></div>
+            <div className="nav-div-width justify-content-end desktop-nav">
+                <Link to="/profile"><img width="40" src={profileIcon} alt="Profile Icon" /></Link>
+                <Button text="Log out" className="underline-btn btn" onClick={handleLogout} />
+            </div>
 
             {/* Mobile Nav */}
             <div className="mobile-nav">
@@ -67,13 +67,13 @@ export default function NavBar() {
                     <div className="overlay" onClick={closeMenu}></div>
                 )}
 
-                    {/* Mobile Menu */}
-                    <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-                        <div id="mobile-nav-icon"><img width="40" src={unsentIcon} alt="Unsent Icon" /></div>
-                        <Link to="/contacts" onClick={closeMenu}>Contacts</Link>
-                        <Link to="/archive" onClick={closeMenu}>Archive</Link>
-                        <Link to="/profile" onClick={closeMenu}>Profile</Link>
-                    </div>
+                {/* Mobile Menu */}
+                <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+                    <div id="mobile-nav-icon"><img width="40" src={unsentIcon} alt="Unsent Icon" /></div>
+                    <Link to="/contacts" onClick={closeMenu}>Contacts</Link>
+                    <Link to="/archive" onClick={closeMenu}>Archive</Link>
+                    <Link to="/profile" onClick={closeMenu}>Profile</Link>
+                </div>
             </div>
         </nav>
     );

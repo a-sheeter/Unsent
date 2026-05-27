@@ -1,7 +1,7 @@
 export default function Contacts() {
     return (
-        <>
-            <NavBar />
-        </>
+        <div className="main-container">
+            Hello
+        </div>
     )
 }

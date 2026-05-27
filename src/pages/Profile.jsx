@@ -54,7 +54,7 @@ export default function Profile() {
         <div className="main-container">
             <h1 className="dark-blue-text">User Profile</h1>
 
-            <p className="gray-text">Full name</p>
+            <p className="gray-text">Name</p>
             <p>{profile?.name}</p>
 
             <p className="gray-text">Username</p>
