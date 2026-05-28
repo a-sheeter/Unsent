@@ -9,6 +9,10 @@
     margin-bottom:8px;
 }
 
+.checkin-form select, textarea {
+    padding: 5px;
+}
+
 .checkin-form > div {
     display: flex;
     flex-direction: column;
