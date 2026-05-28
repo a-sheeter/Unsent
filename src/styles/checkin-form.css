@@ -9,6 +9,10 @@
     margin-bottom:8px;
 }
 
+.checkin-form input {
+    padding: 3px 8px;
+}
+
 .checkin-form select, textarea {
     padding: 5px;
 }

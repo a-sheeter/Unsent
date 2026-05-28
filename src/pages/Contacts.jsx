@@ -3,8 +3,6 @@ import { supabase } from "../../utilities/supabase";
 
 import Button from "../components/Button";
 
-import editIcon from "../assets/pen-to-square-solid-full.svg";
-
 import "../styles/table.css";
 import "../styles/contacts.css";
 import PopupContainer from "../components/PopupContainer";
@@ -15,18 +13,18 @@ export default function Contacts() {
         document.title = "Contacts";
     }, []);
 
+    const [contacts, setContacts] = useState([]);
+
+    const [name, setName] = useState("");
+    const [relationship, setRelationship] = useState("");
+    const [note, setNote] = useState("");
+
     const avatarColors = [
         "av-blue",
         "av-pink",
         "av-green",
         "av-orange"
     ]
-
-    const [contacts, setContacts] = useState([]);
-
-    const [name, setName] = useState("");
-    const [relationship, setRelationship] = useState("");
-    const [note, setNote] = useState("");
 
     useEffect(() => {
         getContacts();
@@ -58,7 +56,16 @@ export default function Contacts() {
             console.log(error)
         } else {
             console.log(data);
-            setContacts(data);
+
+            const sortedContacts = data.sort((a, b) => {
+
+                const lastNameA = a.name.split(" ").slice(-1)[0].toLowerCase();
+                const lastNameB = b.name.split(" ").slice(-1)[0].toLowerCase();
+
+                return lastNameA.localeCompare(lastNameB);
+            })
+
+            setContacts(sortedContacts);
         }
 
     }
@@ -83,9 +90,9 @@ export default function Contacts() {
             .insert([
                 {
                     user_id: user.id,
-                    name: name,
-                    relationship: relationship,
-                    note: note
+                    name: name.trim(),
+                    relationship: relationship.trim(),
+                    note: note.trim()
                 }
             ])
             .select();
@@ -98,34 +105,45 @@ export default function Contacts() {
 
             getContacts();
         }
+        setIsPopupClosed(true);
     }
 
     return (
         <>
             {/* add contacts popup */}
             <PopupContainer title="Add New Contact" isClosed={isPopupClosed}>
-                <form onSubmit={addContact}>
-                    <input
-                        type="text"
-                        placeholder="Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
+                <form className="checkin-form" onSubmit={addContact}>
+                    <div>
+                        <label htmlFor="Name">Full Name</label>
+                        <input
+                            id="name"
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
 
-                    <input
-                        type="text"
-                        placeholder="Relationship"
-                        value={relationship}
-                        onChange={(e) => setRelationship(e.target.value)}
-                    />
+                    <div>
+                        <label htmlFor="relationship">Relationship Type</label>
+                        <input
+                            id="relationship"
+                            type="text"
+                            placeholder="e.g., parent, friend"
+                            value={relationship}
+                            onChange={(e) => setRelationship(e.target.value)}
+                        />
+                    </div>
 
-                    <input
-                        type="text"
-                        placeholder="Note"
-                        value={note}
-                        onChange={(e) => setNote(e.target.value)}
-                    />
-                    <Button text="Add New Contact" className="btn secondary-btn" type="submit" oncClick={handleClosePopup}/>
+                    <div>
+                        <label htmlFor="Note">Optional Note</label>
+                        <input
+                            id="note"
+                            type="text"
+                            value={note}
+                            onChange={(e) => setNote(e.target.value)}
+                        />
+                    </div>
+                    <Button text="Add New Contact" className="btn secondary-btn" type="submit" />
                 </form>
             </PopupContainer>
 
@@ -139,7 +157,7 @@ export default function Contacts() {
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Relationship</th>
+                            <th>Relationship Type</th>
                             <th>Last written</th>
                             <th>Optional Note</th>
                             <th>Edit</th>
@@ -149,10 +167,10 @@ export default function Contacts() {
                         {contacts.map((contact, index) => {
 
                             const initials = contact.name
-                                .split(" ")
+                                ?.split(" ")
                                 .map(word => word[0])
                                 .join("")
-                                .toUpperCase();
+                                .toUpperCase() || "";
 
                             const avatarClass = avatarColors[index % avatarColors.length];
 
