@@ -56,9 +56,12 @@ export default function Message() {
     /* begin export */
     return (
         <>
+            {/* popup container */}
             <PopupContainer title="Emotion Check-In" isClosed={isPopupClosed}>
                 <CheckinForm selectLabel="How are you feeling right now?" noteLabel="What made you want to write today?" handleSkip={handleClosePopup} />
             </PopupContainer>
+
+            {/* main container */}
             <div className="main-container">
                 <div className="form-container">
                     <div className="form-header">
