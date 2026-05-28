@@ -15,10 +15,12 @@ export default function Contacts() {
 
     const [contacts, setContacts] = useState([]);
 
+    /* set form variables */
     const [name, setName] = useState("");
     const [relationship, setRelationship] = useState("");
     const [note, setNote] = useState("");
 
+    /* avatar colors */
     const avatarColors = [
         "av-blue",
         "av-pink",
@@ -26,12 +28,19 @@ export default function Contacts() {
         "av-orange"
     ]
 
+    /* form validation */
+    const [formError, setFormError] = useState("");
+
     useEffect(() => {
         getContacts();
     }, []);
 
     /* popup */
-    const [isPopupClosed, setIsPopupClosed] = useState(false);
+    const [isPopupClosed, setIsPopupClosed] = useState(true);
+
+    function handleOpenPopup() {
+        setIsPopupClosed(false)
+    }
 
     function handleClosePopup() {
         setIsPopupClosed(true);
@@ -75,6 +84,13 @@ export default function Contacts() {
 
         e.preventDefault();
 
+        setFormError("");
+
+        if (!name.trim()) {
+            setFormError("Name is required.");
+            return;
+        }
+
         const {
             data: { user },
             error: userError
@@ -111,8 +127,8 @@ export default function Contacts() {
     return (
         <>
             {/* add contacts popup */}
-            <PopupContainer title="Add New Contact" isClosed={isPopupClosed}>
-                <form className="checkin-form" onSubmit={addContact}>
+            <PopupContainer title="Add New Contact" isClosed={isPopupClosed} handleClosePopup={handleClosePopup}>
+                <form className="checkin-form">
                     <div>
                         <label htmlFor="Name">Full Name</label>
                         <input
@@ -143,7 +159,14 @@ export default function Contacts() {
                             onChange={(e) => setNote(e.target.value)}
                         />
                     </div>
-                    <Button text="Add New Contact" className="btn secondary-btn" type="submit" />
+                    {formError && (
+                        <div className="form-error">
+                            {formError}
+                        </div>
+                    )}
+                    <div className="two-btns"><Button text="Close" className="btn outline-btn" type="button" onClick={handleClosePopup}/>
+                    <Button text="Add New Contact" className="btn secondary-btn" type="submit" onClick={addContact} /></div>
+                    
                 </form>
             </PopupContainer>
 
@@ -151,6 +174,7 @@ export default function Contacts() {
             <div className="main-container">
                 <div className="flex-row space-between">
                     <h1 className="dark-blue-text">Contacts</h1>
+                    <Button type="button" text="Add New Contact" className="btn secondary-btn" onClick={handleOpenPopup} />
                 </div>
 
                 <table>

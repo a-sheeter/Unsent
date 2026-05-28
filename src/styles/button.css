@@ -11,6 +11,13 @@ button {
     border-radius: 5px;
 }
 
+.two-btns {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row !important;
+    gap:8px;
+}
+
 /* main (dark blue) */
 .main-btn {
     background: var(--dark-blue);
