@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import { supabase } from "../../utilities/supabase";
 
 export default function Profile() {
+    /* set meta title */
+    useEffect(() => {
+        document.title = "Profile";
+    }, []);
 
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
