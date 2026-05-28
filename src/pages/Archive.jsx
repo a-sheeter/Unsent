@@ -1,8 +1,7 @@
 export default function Archive() {
     return (
         <>
-            <title>Archive</title>
-            <NavBar />
+            <p>Hello</p>
         </>
     )
 }
