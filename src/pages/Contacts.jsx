@@ -2,42 +2,40 @@ import { useState, useEffect } from "react";
 import { supabase } from "../../utilities/supabase";
 
 import Button from "../components/Button";
+import PopupContainer from "../components/PopupContainer";
 
 import "../styles/table.css";
 import "../styles/contacts.css";
-import PopupContainer from "../components/PopupContainer";
+
+const AVATAR_COLORS = [
+    "av-blue",
+    "av-pink",
+    "av-green",
+    "av-orange"
+]
 
 export default function Contacts() {
-    /* set meta title */
-    useEffect(() => {
-        document.title = "Contacts";
-    }, []);
 
+    /* --- State --- */
     const [contacts, setContacts] = useState([]);
 
-    /* set form variables */
     const [name, setName] = useState("");
     const [relationship, setRelationship] = useState("");
     const [note, setNote] = useState("");
 
-    /* avatar colors */
-    const avatarColors = [
-        "av-blue",
-        "av-pink",
-        "av-green",
-        "av-orange"
-    ]
-
-    /* form validation */
     const [formError, setFormError] = useState("");
+    const [isPopupClosed, setIsPopupClosed] = useState(true);
+
+    /* --- Effects --- */
+    useEffect(() => {
+        document.title = "Contacts";
+    }, []);
 
     useEffect(() => {
         getContacts();
     }, []);
 
-    /* popup */
-    const [isPopupClosed, setIsPopupClosed] = useState(true);
-
+    /* --- Popup handlers --- */
     function handleOpenPopup() {
         setIsPopupClosed(false)
     }
@@ -46,7 +44,14 @@ export default function Contacts() {
         setIsPopupClosed(true);
     }
 
-    /* get contacts */
+    /* --- Contact functions --- */
+    function resetForm() {
+        setName("");
+        setRelationship("");
+        setNote("");
+        setFormError("");
+    }
+
     async function getContacts() {
 
         const {
@@ -63,23 +68,21 @@ export default function Contacts() {
 
         if (error) {
             console.log(error)
-        } else {
-            console.log(data);
-
-            const sortedContacts = data.sort((a, b) => {
-
-                const lastNameA = a.name.split(" ").slice(-1)[0].toLowerCase();
-                const lastNameB = b.name.split(" ").slice(-1)[0].toLowerCase();
-
-                return lastNameA.localeCompare(lastNameB);
-            })
-
-            setContacts(sortedContacts);
+            return;
         }
+
+        const sortedContacts = data.sort((a, b) => {
+
+            const lastNameA = a.name.split(" ").slice(-1)[0].toLowerCase();
+            const lastNameB = b.name.split(" ").slice(-1)[0].toLowerCase();
+
+            return lastNameA.localeCompare(lastNameB);
+        })
+
+        setContacts(sortedContacts);
 
     }
 
-    /* add contacts */
     async function addContact(e) {
 
         e.preventDefault();
@@ -115,13 +118,29 @@ export default function Contacts() {
         if (error) {
             console.log(error)
         } else {
-            setName("");
-            setRelationship("");
-            setNote("");
-
+            resetForm();
             getContacts();
         }
         setIsPopupClosed(true);
+    }
+
+    async function deleteContact(contactId) {
+        const confirmed = window.confirm(
+            "Are you sure you want to delete this contact?"
+        );
+
+        if (!confirmed) return;
+
+        const { error } = await supabase
+            .from("contacts")
+            .delete()
+            .eq("id", contactId);
+
+        if (error) {
+            console.log(error);
+        } else {
+            setContacts(prev => prev.filter(contact => contact.id !== contactId));
+        }
     }
 
     return (
@@ -164,9 +183,9 @@ export default function Contacts() {
                             {formError}
                         </div>
                     )}
-                    <div className="two-btns"><Button text="Close" className="btn outline-btn" type="button" onClick={handleClosePopup}/>
-                    <Button text="Add New Contact" className="btn secondary-btn" type="submit" onClick={addContact} /></div>
-                    
+                    <div className="two-btns"><Button text="Close" className="btn outline-btn" type="button" onClick={handleClosePopup} />
+                        <Button text="Add New Contact" className="btn secondary-btn" type="submit" onClick={addContact} /></div>
+
                 </form>
             </PopupContainer>
 
@@ -184,7 +203,7 @@ export default function Contacts() {
                             <th>Relationship Type</th>
                             <th>Last written</th>
                             <th>Optional Note</th>
-                            <th>Edit</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -196,7 +215,7 @@ export default function Contacts() {
                                 .join("")
                                 .toUpperCase() || "";
 
-                            const avatarClass = avatarColors[index % avatarColors.length];
+                            const avatarClass = AVATAR_COLORS[index % AVATAR_COLORS.length];
 
                             return (
                                 <tr key={contact.id}>
@@ -211,7 +230,12 @@ export default function Contacts() {
                                     <td>{contact.relationship}</td>
                                     <td>{contact.last_written}</td>
                                     <td>{contact.note}</td>
-                                    <td><button><svg width="26" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path fill="rgb(27, 45, 72)" d="M535.6 85.7C513.7 63.8 478.3 63.8 456.4 85.7L432 110.1L529.9 208L554.3 183.6C576.2 161.7 576.2 126.3 554.3 104.4L535.6 85.7zM236.4 305.7C230.3 311.8 225.6 319.3 222.9 327.6L193.3 416.4C190.4 425 192.7 434.5 199.1 441C205.5 447.5 215 449.7 223.7 446.8L312.5 417.2C320.7 414.5 328.2 409.8 334.4 403.7L496 241.9L398.1 144L236.4 305.7zM160 128C107 128 64 171 64 224L64 480C64 533 107 576 160 576L416 576C469 576 512 533 512 480L512 384C512 366.3 497.7 352 480 352C462.3 352 448 366.3 448 384L448 480C448 497.7 433.7 512 416 512L160 512C142.3 512 128 497.7 128 480L128 224C128 206.3 142.3 192 160 192L256 192C273.7 192 288 177.7 288 160C288 142.3 273.7 128 256 128L160 128z" /></svg></button></td>
+                                    <td>
+                                        <div className="table-actions">
+                                            <Button text="Edit" type="button" className="underline-btn" />
+                                            <Button text="Delete" type="button" onClick={() => deleteContact(contact.id)} className="underline-btn" />
+                                        </div>
+                                    </td>
                                 </tr>
                             )
                         })}
