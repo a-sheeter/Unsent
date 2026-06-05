@@ -1,9 +1,7 @@
-import { useState } from "react";
-
 import "../styles/popup.css";
 import icon from "../assets/unsent_icon.png";
 
-export default function PopupContainer({ title, children, isClosed, handleClosePopup}) {
+export default function PopupContainer({ title, children, isClosed, handleClosePopup }) {
 
     return (
         <div className={`popup-background ${isClosed ? "close" : ""}`} onClick={handleClosePopup}>

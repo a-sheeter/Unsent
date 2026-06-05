@@ -1,17 +1,24 @@
 import "../styles/toggle.css";
 
 export default function Toggle({ isOn, onToggle, disabled=false }) {
+
+    /* --- Handlers --- */
+    function handleToggle() {
+        if (!disabled) {
+            onToggle(!isOn);
+        }
+    }
+
+    /* --- Render --- */
     return (
-        <div
+        <button
             className={`toggle ${isOn ? "on" : "off"} ${disabled ? "disabled" : ""}`}
-            onClick={() => {
-                if (!disabled) onToggle(!isOn);
-            }}
+            onClick={handleToggle}
             role="switch"
             aria-checked={isOn}
         >
             <div className="toggle-knob"/>
 
-        </div>
+        </button>
     )
 }
