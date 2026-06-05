@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { supabase } from "../../utilities/supabase";
 
@@ -9,15 +9,20 @@ import Button from "../components/Button";
 import "../styles/login-signup.css";
 
 export default function Login() {
+    const navigate = useNavigate();
 
+    /* --- State --- */
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
+    /* --- Handlers --- */
     async function handleLogin(e) {
         e.preventDefault();
 
-        const { data, error } =
+        setErrorMessage("");
+
+        const { error } =
             await supabase.auth.signInWithPassword({
                 email,
                 password
@@ -28,27 +33,30 @@ export default function Login() {
             return;
         }
 
-        console.log("Logged in:", data.user);
-
         //redirect user
-        window.location.href = "/";
+        navigate("/");
     }
 
+    /* --- Render --- */
     return (
         <>
             <GenericNav />
             <div className="main-container center-screen login-signup">
                 <form onSubmit={handleLogin}>
-                    <label htmlFor="">Email</label>
+                    <label htmlFor="email">Email</label>
                     <input
+                        id="email"
                         type="email"
+                        required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
 
                     <label htmlFor="password">Password</label>
                     <input
+                        id="password"
                         type="password"
+                        required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
