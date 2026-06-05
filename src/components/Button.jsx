@@ -1,7 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import "../styles/button.css";
 
-export default function Button({ type, url, className, text, onClick }) {
+export default function Button({
+        type = "button",
+        url,
+        className = "",
+        children,
+        onClick,
+        disabled = false,
+    }) {
     const navigate = useNavigate();
 
     function handleClick(e) {
@@ -10,6 +17,6 @@ export default function Button({ type, url, className, text, onClick }) {
     }
 
     return (
-        <button type={ type } onClick={handleClick} className={ className }>{ text }</button>
+        <button type={type} onClick={handleClick} className={className} disabled={disabled}>{children}</button>
     )
 }

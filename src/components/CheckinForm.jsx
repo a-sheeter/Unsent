@@ -29,8 +29,8 @@ export default function CheckinForm({ selectLabel, noteLabel, handleSkip }) {
                 <textarea rows="5"></textarea>
             </div>
             <div className="checkin-form-button-container">
-                <Button type="button" className="btn outline-btn" text="Skip" onClick={handleSkip}/>
-                <Button type="button" className="btn secondary-btn" text="Log Check-In" />
+                <Button type="button" className="btn outline-btn" onClick={handleSkip}>Skip</Button>
+                <Button type="button" className="btn secondary-btn">Log Check-In</Button>
             </div>
 
         </form>

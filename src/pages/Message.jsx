@@ -93,7 +93,7 @@ export default function Message() {
                             <textarea></textarea>
                         </div>
                         <div className="button-group">
-                            <Button type="submit" className="btn main-btn" text="Send Message" />
+                            <Button type="submit" className="btn main-btn">Send Message</Button>
                         </div>
                     </form>
                 </div>

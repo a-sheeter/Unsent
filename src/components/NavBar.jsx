@@ -53,7 +53,7 @@ export default function NavBar() {
             {/* Profile */}
             <div className="nav-div-width justify-content-end desktop-nav">
                 <Link to="/profile"><img width="40" src={profileIcon} alt="Profile Icon" /></Link>
-                <Button text="Log out" className="underline-btn btn" onClick={handleLogout} />
+                <Button className="underline-btn btn" onClick={handleLogout}>Log Out</Button>
             </div>
 
             {/* Mobile Nav */}

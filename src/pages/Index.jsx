@@ -13,7 +13,7 @@ export default function Index() {
     /* begin export */
     return (
         <>
-            <div className="main-container center-screen"><Button type="button" url="/message" className="btn main-btn" text="+ New Message" /></div>
+            <div className="main-container center-screen"><Button type="button" url="/message" className="btn main-btn">+ New Message</Button></div>
         </>
     );
 }

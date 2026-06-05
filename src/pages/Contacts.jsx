@@ -183,8 +183,8 @@ export default function Contacts() {
                             {formError}
                         </div>
                     )}
-                    <div className="two-btns"><Button text="Close" className="btn outline-btn" type="button" onClick={handleClosePopup} />
-                        <Button text="Add New Contact" className="btn secondary-btn" type="submit" onClick={addContact} /></div>
+                    <div className="two-btns"><Button className="btn outline-btn" type="button" onClick={handleClosePopup}>Close</Button>
+                        <Button className="btn secondary-btn" type="submit" onClick={addContact}>Add New Contact</Button></div>
 
                 </form>
             </PopupContainer>
@@ -193,7 +193,7 @@ export default function Contacts() {
             <div className="main-container">
                 <div className="flex-row space-between">
                     <h1 className="dark-blue-text">Contacts</h1>
-                    <Button type="button" text="Add New Contact" className="btn secondary-btn" onClick={handleOpenPopup} />
+                    <Button type="button" className="btn secondary-btn" onClick={handleOpenPopup}>Add New Contact</Button>
                 </div>
 
                 <table>
@@ -232,8 +232,8 @@ export default function Contacts() {
                                     <td>{contact.note}</td>
                                     <td>
                                         <div className="table-actions">
-                                            <Button text="Edit" type="button" className="underline-btn" />
-                                            <Button text="Delete" type="button" onClick={() => deleteContact(contact.id)} className="underline-btn" />
+                                            <Button type="button" className="underline-btn">Edit</Button>
+                                            <Button type="button" onClick={() => deleteContact(contact.id)} className="underline-btn">Delete</Button>
                                         </div>
                                     </td>
                                 </tr>
