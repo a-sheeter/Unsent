@@ -89,6 +89,10 @@ h2 {
     position: relative;
 }
 
+.nav-logo {
+    width:175px;
+}
+
 .nav-div-width {
     width:160px;
     display: flex;

@@ -48,7 +48,7 @@ export default function NavBar() {
             </div>
 
             { /* Logo */}
-            <Link to="/"><img width="175" src={logo} alt="logo" /></Link>
+            <Link to="/"><img className="nav-logo" src={logo} alt="Unsent Project Logo" /></Link>
 
             {/* Profile */}
             <div className="nav-div-width justify-content-end desktop-nav">
