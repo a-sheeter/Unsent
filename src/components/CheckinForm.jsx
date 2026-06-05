@@ -1,36 +1,44 @@
 import "../styles/checkin-form.css";
 import Button from "../components/Button";
 
-export default function CheckinForm({ selectLabel, noteLabel, handleSkip }) {
+const MOOD_OPTIONS = [
+    "Angry",
+    "Overwhelmed",
+    "Anxious",
+    "Sad",
+    "Lonely",
+    "Numb",
+    "Confused",
+    "Tired",
+    "Calm",
+    "Hopeful",
+    "Happy",
+    "Loved",
+];
+
+export default function CheckinForm({ selectLabel, noteLabel, handleSkip, handleSubmit }) {
 
     return (
-        <form className="checkin-form">
+        <form className="checkin-form" onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="pre-check-in">{selectLabel}</label>
-                <select name="pre-check-in" id="pre-check-in">
-                    <option value=""></option>
-                    <option value="Angry">Angry</option>
-                    <option value="Overwhelmed">Overwhelmed</option>
-                    <option value="Anxious">Anxious</option>
-                    <option value="Sad">Sad</option>
-                    <option value="Lonely">Lonely</option>
-                    <option value="Numb">Numb</option>
-                    <option value="Confused">Confused</option>
-                    <option value="Tired">Tired</option>
-                    <option value="Calm">Calm</option>
-                    <option value="Hopeful">Hopeful</option>
-                    <option value="Happy">Happy</option>
-                    <option value="Loved">Loved</option>
+                <label htmlFor="mood-select">{selectLabel}</label>
+                <select name="mood" id="mood-select">
+                    <option value="">Select an option</option>
+                    {MOOD_OPTIONS.map((mood) => (
+                        <option key={mood} value={mood}>
+                            {mood}
+                        </option>
+                    ))}
                 </select>
             </div>
 
             <div>
-                <label htmlFor="pre-check-in-note">{noteLabel}</label>
-                <textarea rows="5"></textarea>
+                <label htmlFor="mood-note">{noteLabel}</label>
+                <textarea id="mood-note" name="note" rows="5"></textarea>
             </div>
             <div className="checkin-form-button-container">
                 <Button type="button" className="btn outline-btn" onClick={handleSkip}>Skip</Button>
-                <Button type="button" className="btn secondary-btn">Log Check-In</Button>
+                <Button type="submit" className="btn secondary-btn">Log Check-In</Button>
             </div>
 
         </form>
