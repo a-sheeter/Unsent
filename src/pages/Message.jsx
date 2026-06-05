@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
+
 import Button from "../components/Button";
 import Toggle from "../components/Toggle";
 import PopupContainer from "../components/PopupContainer";
@@ -7,25 +8,18 @@ import CheckinForm from "../components/CheckinForm";
 
 import "../styles/message.css";
 
+const PROMPTS = [
+    "What happened today that stuck with you?",
+    "What are you feeling but not saying?",
+    "If you could say anything without consequence, what would it be?"
+]
+
 export default function Message() {
 
-    /* set meta title */
+    /* --- Effects --- */
     useEffect(() => {
         document.title = "Message";
     }, []);
-
-    /* prompts */
-    const [showPrompts, setShowPrompts] = useState(true);
-
-    const prompts = [
-        "What happened today that stuck with you?",
-        "What are you feeling but not saying?",
-        "If you could say anything without consequence, what would it be?"
-    ]
-
-    const [currentPrompt, setCurrentPrompt] = useState(prompts[0]);
-    const [shuffled, setShuffled] = useState([]);
-    const [index, setIndex] = useState(0);
 
     useEffect(() => {
         const shuffledPrompts = [...prompts].sort(() => Math.random() - 0.5);
@@ -34,7 +28,25 @@ export default function Message() {
         setIndex(1);
     }, []);
 
-    const getNewPrompt = () => {
+    /* --- State ---*/
+    /* Prompts */
+    const [showPrompts, setShowPrompts] = useState(true);
+    const [currentPrompt, setCurrentPrompt] = useState(prompts[0]);
+    const [shuffled, setShuffled] = useState([]);
+    const [index, setIndex] = useState(0);
+
+    /* Form */
+    const [recipient, setRecipient] = useState("");
+
+    /* Popup */
+    const [isPopupClosed, setIsPopupClosed] = useState(false);
+
+    /* --- Handlers --- */
+    function handleClosePopup() {
+        setIsPopupClosed(true);
+    }
+
+    function getNewPrompt() {
         if (index >= shuffled.length) {
             const reshuffled = [...prompts].sort(() => Math.random() - 0.5);
             setShuffled(reshuffled);
@@ -46,14 +58,7 @@ export default function Message() {
         }
     };
 
-    /* popup state */
-    const [isPopupClosed, setIsPopupClosed] = useState(false);
-
-    function handleClosePopup() {
-        setIsPopupClosed(true);
-    }
-
-    /* begin export */
+    /* --- Render --- */
     return (
         <>
             {/* popup container */}
