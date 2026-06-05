@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { supabase } from "../../utilities/supabase";
 import { Link } from "react-router-dom";
+
+import { supabase } from "../../utilities/supabase";
 
 import Button from "../components/Button";
 import GenericNav from "../components/GenericNav";
@@ -8,15 +9,30 @@ import GenericNav from "../components/GenericNav";
 import "../styles/login-signup.css";
 
 export default function Signup() {
+
+    /* --- State --- */
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
 
+    /* --- Helpers --- */
+    function resetForm() {
+        setName("");
+        setUsername("");
+        setEmail("");
+        setPassword("");
+    }
+
+    /* --- Handlers --- */
     async function handleSignup(e) {
         e.preventDefault();
+
+        setErrorMessage("");
+        setSuccessMessage("");
 
         // Create authenticated user
         const { data, error } = await supabase.auth.signUp({
@@ -25,7 +41,7 @@ export default function Signup() {
         });
 
         if (error) {
-            console.log("Auth Error:", error.message);
+            setErrorMessage(error.message);
             return;
         }
 
@@ -35,74 +51,82 @@ export default function Signup() {
         if (user) {
             const { error: profileError } = await supabase
                 .from("profiles")
-                .insert([
-                    {
-                        id: user.id,
-                        name: name,
-                        username: username
-                    }
-                ]);
+                .insert({
+                    id: user.id,
+                    name,
+                    username
+                });
 
-                if (profileError) {
-                    console.log("Profile Error:", profileError.message);
-                    return;
-                }
+            if (profileError) {
+                setErrorMessage(profileError.message);
+                return;
+            }
         }
-        console.log("User created successfully.")
-
-        setName("");
-        setUsername("");
-        setEmail("");
-        setPassword("");
+        resetForm();
 
         setSuccessMessage("Account created successfully! You can now login.");
     }
 
     return (
-    <>
-        <GenericNav/>
-        <div className="main-container center-screen login-signup">
-            <form onSubmit={handleSignup}>
-                <label htmlFor="name">Name</label>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+        <>
+            <GenericNav />
+            <div className="main-container center-screen login-signup">
+                <form onSubmit={handleSignup}>
+                    <label htmlFor="name">Name</label>
+                    <input
+                        id="name"
+                        type="text"
+                        autoComplete="name"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                     />
-                <label htmlFor="username">Username</label>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    <label htmlFor="username">Username</label>
+                    <input
+                        id="username"
+                        type="text"
+                        autoComplete="username"
+                        required
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                     />
-                <label htmlFor="email">Email</label>
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    <label htmlFor="email">Email</label>
+                    <input
+                        id="email"
+                        type="email"
+                        autoComplete="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
 
-                <label htmlFor="password">Password</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    <label htmlFor="password">Password</label>
+                    <input
+                        id="password"
+                        type="password"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
-                
-                <Button className="main-btn btn" text="Create Account" type="submit"/>
-            </form>
-            <p>Already have an account? <Link to="/login">Login Now</Link></p>
 
-            {
-                successMessage && (
-                    <div>
-                        <p>{successMessage}</p>
-                        <a href="/login">Login here</a>
-                    </div>
-                )
-            }
-        </div>
-    </>
-)
+                    <Button className="main-btn btn" text="Create Account" type="submit" />
+                </form>
+                <p>Already have an account? <Link to="/login">Login Now</Link></p>
+
+                {
+                    successMessage && (
+                        <div>
+                            <p>{successMessage}</p>
+                            <Link to="/login">Login here</Link>
+                        </div>
+                    )
+                }
+
+                {
+                    errorMessage && <p className="form-error">{errorMessage}</p>
+                }
+            </div>
+        </>
+    )
 }
 
