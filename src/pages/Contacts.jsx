@@ -1,9 +1,14 @@
+// React
 import { useState, useEffect } from "react";
+
+// Services
 import { supabase } from "../../utilities/supabase";
 
+// Components
 import Button from "../components/Button";
 import PopupContainer from "../components/PopupContainer";
 
+// Styles
 import "../styles/table.css";
 import "../styles/contacts.css";
 

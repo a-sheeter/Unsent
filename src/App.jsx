@@ -1,25 +1,35 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+// Reac
 import { useEffect, useState } from "react";
 
+// Router
+import { Routes, Route } from "react-router-dom";
+
+// Services
 import { supabase } from "../utilities/supabase";
 
+// Auth
+import Signup from "./auth/Signup";
+import Login from "./auth/Login";
+import ProtectedRoute from "./auth/ProtectedRoute";
+import PublicRoute from "./auth/PublicRoute";
+
+// Pages
 import Contacts from "./pages/Contacts";
 import Archive from "./pages/Archive";
 import Message from "./pages/Message";
 import Profile from "./pages/Profile";
-import Test from "./pages/Test";
 import Index from "./pages/Index";
 
-import Signup from "./auth/Signup";
-import Login from "./auth/Login";
-
+// Components
 import NavBar from "./components/NavBar";
 
 export default function App() {
 
+    /* --- Auth State --- */
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    /* --- Effects --- */
     useEffect(() => {
 
         // Get existing session
@@ -43,10 +53,12 @@ export default function App() {
 
     }, []);
 
+    /* --- Loading State --- */
     if (loading) {
         return <p>Loading...</p>;
     }
 
+    /* --- Render --- */
     return (
         <>
 
@@ -59,18 +71,18 @@ export default function App() {
                 <Route
                     path="/signup"
                     element={
-                        user
-                            ? <Navigate to="/" />
-                            : <Signup />
+                        <PublicRoute user={user}>
+                            <Signup/>
+                        </PublicRoute>
                     }
                 />
 
                 <Route
                     path="/login"
                     element={
-                        user
-                            ? <Navigate to="/" />
-                            : <Login />
+                        <PublicRoute user={user}>
+                            <Login/>
+                        </PublicRoute>
                     }
                 />
 
@@ -78,54 +90,46 @@ export default function App() {
                 <Route
                     path="/"
                     element={
-                        user
-                            ? <Index />
-                            : <Navigate to="/login" />
+                        <ProtectedRoute user={user}>
+                            <Index/>
+                        </ProtectedRoute>
                     }
                 />
 
                 <Route
                     path="/contacts"
                     element={
-                        user
-                            ? <Contacts />
-                            : <Navigate to="/login" />
+                        <ProtectedRoute user={user}>
+                            <Contacts />
+                        </ProtectedRoute>
+
                     }
                 />
 
                 <Route
                     path="/archive"
                     element={
-                        user
-                            ? <Archive />
-                            : <Navigate to="/login" />
+                        <ProtectedRoute user={user}>
+                            <Archive />
+                        </ProtectedRoute>
                     }
                 />
 
                 <Route
                     path="/message"
                     element={
-                        user
-                            ? <Message />
-                            : <Navigate to="/login" />
+                        <ProtectedRoute user={user}>
+                            <Message/>
+                        </ProtectedRoute>
                     }
                 />
 
                 <Route
                     path="/profile"
                     element={
-                        user
-                            ? <Profile />
-                            : <Navigate to="/login" />
-                    }
-                />
-
-                <Route
-                    path="/"
-                    element={
-                        user
-                            ? <Index />
-                            : <Navigate to="/login" />
+                        <ProtectedRoute user={user}>
+                            <Profile/>
+                        </ProtectedRoute>
                     }
                 />
 

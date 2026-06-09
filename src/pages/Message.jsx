@@ -1,11 +1,13 @@
-import { useEffect } from "react";
-import { useState } from "react";
+// React
+import { useEffect, useState } from "react";
 
+// Components
 import Button from "../components/Button";
 import Toggle from "../components/Toggle";
 import PopupContainer from "../components/PopupContainer";
 import CheckinForm from "../components/CheckinForm";
 
+// Styles
 import "../styles/message.css";
 
 const PROMPTS = [
