@@ -1,4 +1,4 @@
-// Reac
+// React
 import { useEffect, useState } from "react";
 
 // Router

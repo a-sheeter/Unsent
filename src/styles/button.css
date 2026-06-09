@@ -1,5 +1,4 @@
-
-/* button styles */
+/* --- General Buttons --- */
 button {
     background: none;
     border: none;
@@ -18,7 +17,7 @@ button {
     gap:8px;
 }
 
-/* main (dark blue) */
+/* --- Main Dark Blue Button --- */
 .main-btn {
     background: var(--dark-blue);
     color:white;
@@ -29,7 +28,7 @@ button {
     background: var(--medium-blue);
 }
 
-/* secondary (medium blue) */
+/* --- Secondary Light Blue Button --- */
 
 .secondary-btn {
     background:var(--medium-blue);
@@ -41,7 +40,7 @@ button {
     background:var(--dark-blue);
 }
 
-/*outline*/
+/* --- Outline Button --- */
 .outline-btn {
     outline: 3px solid var(--medium-blue);
     outline-offset: -3px;
@@ -54,7 +53,7 @@ button {
     color:var(--dark-blue);
 }
 
-/*underline*/
+/* --- Underline Button --- */
 
 .underline-btn {
     text-decoration: underline;

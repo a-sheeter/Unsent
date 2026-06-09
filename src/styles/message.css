@@ -1,5 +1,4 @@
-/* form */
-
+/* --- Form --- */
 .form-container {
     border-radius: 10px;
     box-shadow: 0 0 8px 1px lightgray;
@@ -57,7 +56,7 @@
     resize:none;
 }
 
-/* form prompts */
+/* --- Form Prompts --- */
 
 .prompt-box {
     color: rgb(158, 158, 158);

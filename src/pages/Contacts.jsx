@@ -9,7 +9,6 @@ import Button from "../components/Button";
 import PopupContainer from "../components/PopupContainer";
 
 // Styles
-import "../styles/table.css";
 import "../styles/contacts.css";
 
 const AVATAR_COLORS = [

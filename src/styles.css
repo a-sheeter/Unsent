@@ -1,13 +1,14 @@
-* {
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 17px;
-}
-
+/* --- Root & Global Styles ---*/
 :root {
     --dark-blue: #1B2D48;
     --medium-blue: #3C649F;
     --light-blue: #83AFF0;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
 }
 
 body {
@@ -22,7 +23,7 @@ a:hover {
     opacity:0.8;
 }
 
-/*general styles*/
+/* --- Layout Utilities --- */
 
 .main-container {
     padding:45px;
@@ -59,7 +60,7 @@ a:hover {
     align-items: center;
 }
 
-/*font styles*/
+/* --- Typography --- */
 
 h1 {
     font-size: 30px;
@@ -78,15 +79,30 @@ h2 {
     color:gray;
 }
 
-/*nav styles*/
+/* --- Navigation --- */
 
 .nav {
-    padding: 15px 45px;
+    position: relative;
     display: flex;
     justify-content: space-between;
-    border-bottom: 3px solid var(--dark-blue);
+    padding: 15px 45px;
     font-weight: 700;
-    position: relative;
+    border-bottom: 3px solid var(--dark-blue);
+}
+
+.nav::after {
+    content: "";
+    position: absolute;
+    left:0;
+    bottom:-18px;
+    height: 15px;
+    width: 100%;
+    background: linear-gradient(
+        90deg,
+        var(--light-blue) 0%,
+        #4779c4 50%,
+        var(--medium-blue) 100%
+    );
 }
 
 .nav-logo {
@@ -94,62 +110,28 @@ h2 {
 }
 
 .nav-div-width {
-    width:160px;
     display: flex;
     align-items: center;
+    width:160px;
 }
 
 .nav ul {
-    list-style: none;
     display: flex;
     gap: 20px;
     padding:0;
+    list-style: none;
 }
 
 .nav a {
-    text-decoration: none;
     color: var(--dark-blue);
+    text-decoration: none;
 }
 
-.nav::after {
-    content: "";
-    background: #83AFF0;
-    background: linear-gradient(90deg,rgba(131, 175, 240, 1) 0%, rgba(71, 121, 196, 1) 50%, rgba(60, 100, 159, 1) 100%);
-    height: 15px;
-    width: 100%;
-    position: absolute;
-    left:0;
-    bottom:-18px;
-}
-
-@media screen and (max-width:766px) {
-    .desktop-nav {
-        display:none;
-    }
-}
-
-/* Overlay backdrop */
-.overlay {
-    position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background: rgba(0, 0, 0, 0.4);
-    z-index:5;
-}
-
-/* Mobile menu  */
+/* --- Mobile Navigation --- */
 
 .mobile-nav {
     display:flex;
     align-items: center;
-}
-
-@media screen and (min-width:766px) {
-    .mobile-nav {
-        display:none;
-    }
 }
 
 .mobile-menu {
@@ -160,11 +142,11 @@ h2 {
     right:0;
     height:100vh;
     width:250px;
+    padding-top:25px;
     background:white;
     z-index:10;
     transform: translateX(100%);
     transition: transform 0.5s ease;
-    padding-top:25px;
 }
 
 .mobile-menu.open {
@@ -174,8 +156,8 @@ h2 {
 }
 
 .mobile-menu.open a {
-    border-bottom: 1px solid lightgray;
     padding:15px 20px;
+    border-bottom: 1px solid lightgray;
     transition: background 0.3s ease;
 }
 
@@ -187,8 +169,51 @@ h2 {
     padding-left: 15px;
 }
 
-/* general form styling */
+/* --- Overlays --- */
+.overlay {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index:5;
+}
+
+/* --- Forms --- */
 .form-error {
     color:red;
     font-size:14px;
+}
+
+/* --- Tables --- */
+table {
+    border-collapse: collapse;
+    width:100%;
+}
+
+th {
+    padding: 15px 10px;
+}
+
+td {
+    border-top: 1px solid lightgray;
+    padding: 15px 10px;
+}
+
+th {
+    text-align: start;
+}
+
+/* --- Responsive --- */
+@media screen and (max-width:766px) {
+    .desktop-nav {
+        display:none;
+    }
+}
+
+@media screen and (min-width:766px) {
+    .mobile-nav {
+        display:none;
+    }
 }

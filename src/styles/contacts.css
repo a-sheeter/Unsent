@@ -1,9 +1,11 @@
+/* --- Contacts --- */
 .contact-name-wrapper {
     display:flex;
     align-items: center;
     gap:12px;
 }
 
+/* --- Avatar --- */
 .avatar-circle {
     width: 37px;
     height:37px;
