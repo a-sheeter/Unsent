@@ -22,6 +22,7 @@ export default function Contacts() {
 
     /* --- State --- */
     const [contacts, setContacts] = useState([]);
+    const [editingContact, setEditingContact] = useState(null);
 
     const [name, setName] = useState("");
     const [relationship, setRelationship] = useState("");
@@ -45,15 +46,28 @@ export default function Contacts() {
     }
 
     function handleClosePopup() {
+        resetForm();
         setIsPopupClosed(true);
     }
 
-    /* --- Contact functions --- */
+    /* --- Edit Contact Handler --- */
+    function handleEditContact(contact) {
+        setEditingContact(contact);
+
+        setName(contact.name || "");
+        setRelationship(contact.relationship || "");
+        setNote(contact.note || "");
+
+        setIsPopupClosed(false);
+    }
+
+    /* --- Contact Functions --- */
     function resetForm() {
         setName("");
         setRelationship("");
         setNote("");
         setFormError("");
+        setEditingContact(null);
     }
 
     async function getContacts() {
@@ -128,6 +142,39 @@ export default function Contacts() {
         setIsPopupClosed(true);
     }
 
+    async function updateContact(e) {
+        e.preventDefault();
+
+        console.log("Updating contact", editingContact)
+
+        setFormError("");
+
+        if (!name.trim()) {
+            setFormError("Name is required.");
+            return;
+        }
+
+        const { error } = await supabase
+            .from("contacts")
+            .update({
+                name: name.trim(),
+                relationship: relationship.trim(),
+                note: note.trim()
+            })
+            .eq("id", editingContact.id);
+        
+        if (error) {
+            setFormError(error.message);
+            return;
+        }
+
+        await getContacts();
+
+        resetForm();
+        setEditingContact(null);
+        setIsPopupClosed(true);
+    }
+
     async function deleteContact(contactId) {
         const confirmed = window.confirm(
             "Are you sure you want to delete this contact?"
@@ -150,10 +197,10 @@ export default function Contacts() {
     return (
         <>
             {/* add contacts popup */}
-            <PopupContainer title="Add New Contact" isClosed={isPopupClosed} handleClosePopup={handleClosePopup}>
-                <form className="checkin-form">
+            <PopupContainer title={editingContact ? "Edit Contact" : "Add New Contact"} isClosed={isPopupClosed} handleClosePopup={handleClosePopup}>
+                <form className="checkin-form" onSubmit={editingContact ? updateContact : addContact}>
                     <div>
-                        <label htmlFor="Name">Full Name</label>
+                        <label htmlFor="name">Full Name</label>
                         <input
                             id="name"
                             type="text"
@@ -174,7 +221,7 @@ export default function Contacts() {
                     </div>
 
                     <div>
-                        <label htmlFor="Note">Optional Note</label>
+                        <label htmlFor="note">Optional Note</label>
                         <input
                             id="note"
                             type="text"
@@ -188,7 +235,7 @@ export default function Contacts() {
                         </div>
                     )}
                     <div className="two-btns"><Button className="btn outline-btn" type="button" onClick={handleClosePopup}>Close</Button>
-                        <Button className="btn secondary-btn" type="submit" onClick={addContact}>Add New Contact</Button></div>
+                        <Button className="btn secondary-btn" type="submit">{editingContact ? "Save Changes" : "Add New Contact"}</Button></div>
 
                 </form>
             </PopupContainer>
@@ -236,7 +283,9 @@ export default function Contacts() {
                                     <td>{contact.note}</td>
                                     <td>
                                         <div className="table-actions">
-                                            <Button type="button" className="underline-btn">Edit</Button>
+                                            <Button type="button" className="underline-btn"
+                                            onClick={() => handleEditContact(contact)}
+                                            >Edit</Button>
                                             <Button type="button" onClick={() => deleteContact(contact.id)} className="underline-btn">Delete</Button>
                                         </div>
                                     </td>
