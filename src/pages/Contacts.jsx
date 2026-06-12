@@ -1,8 +1,9 @@
 // React
 import { useState, useEffect } from "react";
-
-// Services
 import { supabase } from "../../utilities/supabase";
+
+// Hooks
+import useContacts from "../hooks/useContacts";
 
 // Components
 import Button from "../components/Button";
@@ -21,7 +22,12 @@ const AVATAR_COLORS = [
 export default function Contacts() {
 
     /* --- State --- */
-    const [contacts, setContacts] = useState([]);
+    const {
+        contacts,
+        getContacts,
+        deleteContact
+    } = useContacts();
+
     const [editingContact, setEditingContact] = useState(null);
 
     const [name, setName] = useState("");
@@ -36,10 +42,6 @@ export default function Contacts() {
         document.title = "Contacts";
     }, []);
 
-    useEffect(() => {
-        getContacts();
-    }, []);
-
     /* --- Popup handlers --- */
     function handleOpenPopup() {
         setIsPopupClosed(false)
@@ -52,6 +54,8 @@ export default function Contacts() {
 
     /* --- Edit Contact Handler --- */
     function handleEditContact(contact) {
+        setFormError("");
+
         setEditingContact(contact);
 
         setName(contact.name || "");
@@ -70,39 +74,7 @@ export default function Contacts() {
         setEditingContact(null);
     }
 
-    async function getContacts() {
-
-        const {
-            data: { user }
-        } = await supabase.auth.getUser();
-
-        if (!user) return;
-
-        const { data, error } = await supabase
-            .from("contacts")
-            .select("*")
-            .eq("user_id", user.id)
-            .order("id", { ascending: false });
-
-        if (error) {
-            console.log(error)
-            return;
-        }
-
-        const sortedContacts = data.sort((a, b) => {
-
-            const lastNameA = a.name.split(" ").slice(-1)[0].toLowerCase();
-            const lastNameB = b.name.split(" ").slice(-1)[0].toLowerCase();
-
-            return lastNameA.localeCompare(lastNameB);
-        })
-
-        setContacts(sortedContacts);
-
-    }
-
-    async function addContact(e) {
-
+    async function saveContact(e) {
         e.preventDefault();
 
         setFormError("");
@@ -113,92 +85,51 @@ export default function Contacts() {
         }
 
         const {
-            data: { user },
+            data: {user},
             error: userError
         } = await supabase.auth.getUser();
 
         if (userError || !user) {
-            console.log("No authenticated user");
+            console.log(userError || "No authenticated user.");
             return;
         }
 
-        const { data, error } = await supabase
-            .from("contacts")
-            .insert([
-                {
-                    user_id: user.id,
-                    name: name.trim(),
-                    relationship: relationship.trim(),
-                    note: note.trim()
-                }
-            ])
-            .select();
-        if (error) {
-            console.log(error)
+        const payload = {
+            name: name.trim(),
+            relationship: relationship.trim(),
+            note: note.trim(),
+        };
+
+        let query = supabase.from("contacts");
+
+        if (editingContact) {
+            query = query.update(payload).eq("id", editingContact.id);
         } else {
-            resetForm();
-            getContacts();
-        }
-        setIsPopupClosed(true);
-    }
-
-    async function updateContact(e) {
-        e.preventDefault();
-
-        console.log("Updating contact", editingContact)
-
-        setFormError("");
-
-        if (!name.trim()) {
-            setFormError("Name is required.");
-            return;
+            query = query.insert([
+                {
+                    ...payload,
+                    user_id: user.id
+                }
+            ]);
         }
 
-        const { error } = await supabase
-            .from("contacts")
-            .update({
-                name: name.trim(),
-                relationship: relationship.trim(),
-                note: note.trim()
-            })
-            .eq("id", editingContact.id);
-        
+        const { error } = await query;
+
         if (error) {
             setFormError(error.message);
             return;
         }
 
         await getContacts();
-
         resetForm();
-        setEditingContact(null);
         setIsPopupClosed(true);
-    }
-
-    async function deleteContact(contactId) {
-        const confirmed = window.confirm(
-            "Are you sure you want to delete this contact?"
-        );
-
-        if (!confirmed) return;
-
-        const { error } = await supabase
-            .from("contacts")
-            .delete()
-            .eq("id", contactId);
-
-        if (error) {
-            console.log(error);
-        } else {
-            setContacts(prev => prev.filter(contact => contact.id !== contactId));
-        }
     }
 
     return (
         <>
             {/* add contacts popup */}
             <PopupContainer title={editingContact ? "Edit Contact" : "Add New Contact"} isClosed={isPopupClosed} handleClosePopup={handleClosePopup}>
-                <form className="checkin-form" onSubmit={editingContact ? updateContact : addContact}>
+                <form className="checkin-form" onSubmit={saveContact}>
                     <div>
                         <label htmlFor="name">Full Name</label>
                         <input
