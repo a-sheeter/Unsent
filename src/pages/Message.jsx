@@ -24,21 +24,24 @@ export default function Message() {
     }, []);
 
     useEffect(() => {
-        const shuffledPrompts = [...prompts].sort(() => Math.random() - 0.5);
+        const shuffledPrompts = [...PROMPTS].sort(() => Math.random() - 0.5);
         setShuffled(shuffledPrompts);
         setCurrentPrompt(shuffledPrompts[0]);
         setIndex(1);
     }, []);
 
     /* --- State ---*/
+    /* Archive */
+    const [emotion, setEmotion] = useState("");
+    const [subject, setSubject] = useState("");
+    const [note, setNote] = useState("");
+    const [recipient, setRecipient] = useState("");
+
     /* Prompts */
     const [showPrompts, setShowPrompts] = useState(true);
-    const [currentPrompt, setCurrentPrompt] = useState(prompts[0]);
+    const [currentPrompt, setCurrentPrompt] = useState(PROMPTS[0]);
     const [shuffled, setShuffled] = useState([]);
     const [index, setIndex] = useState(0);
-
-    /* Form */
-    const [recipient, setRecipient] = useState("");
 
     /* Popup */
     const [isPopupClosed, setIsPopupClosed] = useState(false);
