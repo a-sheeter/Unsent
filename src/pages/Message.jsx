@@ -60,6 +60,10 @@ export default function Message() {
     /* Popup */
     const [isPopupClosed, setIsPopupClosed] = useState(false);
 
+    /* --- Current Date --- */
+    const date = new Date().toISOString().split("T")[0];
+    console.log(date);
+
     /* --- Handlers --- */
     function handleClosePopup() {
         setIsPopupClosed(true);
