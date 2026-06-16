@@ -56,6 +56,13 @@
     resize:none;
 }
 
+select#recipient {
+    width: 25%;
+    outline: none;
+    border: none;
+    appearance: none;
+}
+
 /* --- Form Prompts --- */
 
 .prompt-box {

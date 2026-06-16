@@ -60,7 +60,7 @@ export default function NavBar() {
             </div>
 
             {/* Mobile Nav */}
-            <div class="mobile-nav">
+            <div className="mobile-nav">
                 <button onClick={toggleMenu} className="hamburger-btn" 
                 aria-label="Toggle menu"
                 aria-expanded={menuOpen}

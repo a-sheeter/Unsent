@@ -7,6 +7,12 @@ import Toggle from "../components/Toggle";
 import PopupContainer from "../components/PopupContainer";
 import CheckinForm from "../components/CheckinForm";
 
+// Hooks
+import useContacts from "../hooks/useContacts";
+
+// Utils
+import { supabase } from "../../utilities/supabase";
+
 // Styles
 import "../styles/message.css";
 
@@ -31,11 +37,19 @@ export default function Message() {
     }, []);
 
     /* --- State ---*/
-    /* Archive */
+    /* Precheck */
     const [emotion, setEmotion] = useState("");
-    const [subject, setSubject] = useState("");
-    const [note, setNote] = useState("");
+    const [checkinNote, setCheckinNote] = useState("");
+
+    /* Contacts */
+    const {
+        contacts
+    } = useContacts();
+
+    /* Message */
     const [recipient, setRecipient] = useState("");
+    const [subject, setSubject] = useState("");
+    const [message, setMessage] = useState("");
 
     /* Prompts */
     const [showPrompts, setShowPrompts] = useState(true);
@@ -51,6 +65,35 @@ export default function Message() {
         setIsPopupClosed(true);
     }
 
+    function handleCheckinSubmit(e) {
+        e.preventDefault();
+
+        console.log({
+            emotion,
+            checkinNote
+        });
+
+        setIsPopupClosed(true);
+    }
+
+    function handleMessageSubmit(e) {
+        e.preventDefault();
+
+        const archiveEntry = {
+            recipient,
+            subject,
+            emotion,
+            note: checkinNote,
+        };
+
+        console.log(archiveEntry);
+
+        //supabase insert goes here
+
+        resetForm();
+        setIsPopupClosed(false);
+    }
+
     function getNewPrompt() {
         if (index >= shuffled.length) {
             const reshuffled = [...prompts].sort(() => Math.random() - 0.5);
@@ -63,12 +106,21 @@ export default function Message() {
         }
     };
 
+    /* --- Form Reset --- */
+    function resetForm() {
+        setRecipient("");
+        setSubject("");
+        setMessage("");
+        setEmotion("");
+        setCheckinNote("");
+    }
+
     /* --- Render --- */
     return (
         <>
             {/* popup container */}
             <PopupContainer title="Emotion Check-In" isClosed={isPopupClosed} handleClosePopup={handleClosePopup}>
-                <CheckinForm selectLabel="How are you feeling right now?" noteLabel="What made you want to write today?" handleSkip={handleClosePopup} />
+                <CheckinForm selectLabel="How are you feeling right now?" noteLabel="What made you want to write today?" handleSkip={handleClosePopup} handleSubmit={handleCheckinSubmit} emotion={emotion} setEmotion={setEmotion} note={checkinNote} setNote={setCheckinNote} />
             </PopupContainer>
 
             {/* main container */}
@@ -81,14 +133,21 @@ export default function Message() {
                             <Toggle isOn={showPrompts} onToggle={setShowPrompts} />
                         </div>
                     </div>
-                    <form className="message-form">
+                    <form className="message-form" onSubmit={handleMessageSubmit}>
                         <div className="form-group">
                             <label htmlFor="recipient">To</label>
-                            <input type="text" id="recipient" name="recipient" />
+                            <select id="recipient" value={recipient} onChange={(e) => setRecipient(e.target.value)}>
+                                <option value=""></option>
+                                {contacts.map((contact) => (
+                                    <option key={contact.id} value={contact.name}>
+                                        {contact.name}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className="form-group">
                             <label htmlFor="subject">Subject</label>
-                            <input type="text" id="subject" name="subject" />
+                            <input type="text" id="subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
                         </div>
                         <div className="form-group">
                             {showPrompts && (
@@ -100,7 +159,7 @@ export default function Message() {
                                 </div>
                             )
                             }
-                            <textarea></textarea>
+                            <textarea value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
                         </div>
                         <div className="button-group">
                             <Button type="submit" className="btn main-btn">Send Message</Button>

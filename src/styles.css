@@ -205,6 +205,11 @@ th {
     text-align: start;
 }
 
+.table-actions {
+    display: flex;
+    gap: 10px;
+}
+
 /* --- Responsive --- */
 @media screen and (max-width:766px) {
     .desktop-nav {

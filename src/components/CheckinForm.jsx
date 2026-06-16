@@ -16,13 +16,13 @@ const MOOD_OPTIONS = [
     "Loved",
 ];
 
-export default function CheckinForm({ selectLabel, noteLabel, handleSkip, handleSubmit }) {
+export default function CheckinForm({ selectLabel, noteLabel, handleSkip, handleSubmit, emotion, setEmotion, note, setNote }) {
 
     return (
         <form className="checkin-form" onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="mood-select">{selectLabel}</label>
-                <select name="mood" id="mood-select">
+                <select id="mood-select" value={emotion} onChange={(e) => setEmotion(e.target.value)}>
                     <option value="">Select an option</option>
                     {MOOD_OPTIONS.map((mood) => (
                         <option key={mood} value={mood}>
@@ -34,7 +34,7 @@ export default function CheckinForm({ selectLabel, noteLabel, handleSkip, handle
 
             <div>
                 <label htmlFor="mood-note">{noteLabel}</label>
-                <textarea id="mood-note" name="note" rows="5"></textarea>
+                <textarea id="mood-note" rows="5" value={note} onChange={(e) => setNote(e.target.value)}></textarea>
             </div>
             <div className="checkin-form-button-container">
                 <Button type="button" className="btn outline-btn" onClick={handleSkip}>Skip</Button>
