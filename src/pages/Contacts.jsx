@@ -1,6 +1,5 @@
 // React
 import { useState, useEffect } from "react";
-import { supabase } from "../../utilities/supabase";
 
 // Hooks
 import useContacts from "../hooks/useContacts";
@@ -9,15 +8,8 @@ import useContacts from "../hooks/useContacts";
 import Button from "../components/Button";
 import PopupContainer from "../components/PopupContainer";
 
-// Styles
-import "../styles/contacts.css";
-
-const AVATAR_COLORS = [
-    "av-blue",
-    "av-pink",
-    "av-green",
-    "av-orange"
-]
+// Utils
+import { supabase } from "../../utilities/supabase";
 
 export default function Contacts() {
 
@@ -85,7 +77,7 @@ export default function Contacts() {
         }
 
         const {
-            data: {user},
+            data: { user },
             error: userError
         } = await supabase.auth.getUser();
 
@@ -105,10 +97,21 @@ export default function Contacts() {
         if (editingContact) {
             query = query.update(payload).eq("id", editingContact.id);
         } else {
+            const avatar_colors = [
+                "av-blue",
+                "av-pink",
+                "av-green",
+                "av-orange"
+            ]
+
+            function getRandomColor() {
+                return avatar_colors[Math.floor(Math.random() * avatar_colors.length)];
+            }
             query = query.insert([
                 {
                     ...payload,
-                    user_id: user.id
+                    user_id: user.id,
+                    avatar_color: getRandomColor()
                 }
             ]);
         }
@@ -178,53 +181,58 @@ export default function Contacts() {
                     <Button type="button" className="btn secondary-btn" onClick={handleOpenPopup}>Add New Contact</Button>
                 </div>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Relationship Type</th>
-                            <th>Last written</th>
-                            <th>Optional Note</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {contacts.map((contact, index) => {
+                {contacts.length > 0 ? (
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Relationship Type</th>
+                                <th>Last written</th>
+                                <th>Optional Note</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {contacts.map((contact, index) => {
 
-                            const initials = contact.name
-                                ?.split(" ")
-                                .map(word => word[0])
-                                .join("")
-                                .toUpperCase() || "";
+                                const initials = contact.name
+                                    ?.split(" ")
+                                    .map(word => word[0])
+                                    .join("")
+                                    .toUpperCase() || "";
 
-                            const avatarClass = AVATAR_COLORS[index % AVATAR_COLORS.length];
-
-                            return (
-                                <tr key={contact.id}>
-                                    <td>
-                                        <div className="contact-name-wrapper">
-                                            <div className={`avatar-circle ${avatarClass}`}>
-                                                {initials}
+                                return (
+                                    <tr key={contact.id}>
+                                        <td>
+                                            <div className="contact-name-wrapper">
+                                                <div className={`avatar-circle ${contact.avatar_color}`}>
+                                                    {initials}
+                                                </div>
+                                                <span>{contact.name}</span>
                                             </div>
-                                            <span>{contact.name}</span>
-                                        </div>
-                                    </td>
-                                    <td>{contact.relationship}</td>
-                                    <td>{contact.last_written}</td>
-                                    <td>{contact.note}</td>
-                                    <td>
-                                        <div className="table-actions">
-                                            <Button type="button" className="underline-btn"
-                                            onClick={() => handleEditContact(contact)}
-                                            >Edit</Button>
-                                            <Button type="button" onClick={() => deleteContact(contact.id)} className="underline-btn">Delete</Button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
+                                        </td>
+                                        <td>{contact.relationship}</td>
+                                        <td>{contact.last_written}</td>
+                                        <td>{contact.note}</td>
+                                        <td>
+                                            <div className="table-actions">
+                                                <Button type="button" className="underline-btn"
+                                                    onClick={() => handleEditContact(contact)}
+                                                >Edit</Button>
+                                                <Button type="button" onClick={() => deleteContact(contact.id)} className="underline-btn">Delete</Button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                ) : (
+                    <div className="empty-state">
+                        No contacts to show.
+                    </div>
+                )}
+
             </div>
         </>
     )

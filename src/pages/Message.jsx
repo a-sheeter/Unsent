@@ -1,5 +1,6 @@
 // React
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Components
 import Button from "../components/Button";
@@ -9,6 +10,7 @@ import CheckinForm from "../components/CheckinForm";
 
 // Hooks
 import useContacts from "../hooks/useContacts";
+import useWritingPrompts from "../hooks/useWritingPrompts";
 
 // Utils
 import { supabase } from "../../utilities/supabase";
@@ -16,24 +18,12 @@ import { supabase } from "../../utilities/supabase";
 // Styles
 import "../styles/message.css";
 
-const PROMPTS = [
-    "What happened today that stuck with you?",
-    "What are you feeling but not saying?",
-    "If you could say anything without consequence, what would it be?"
-]
-
 export default function Message() {
+    const navigate = useNavigate();
 
     /* --- Effects --- */
     useEffect(() => {
         document.title = "Message";
-    }, []);
-
-    useEffect(() => {
-        const shuffledPrompts = [...PROMPTS].sort(() => Math.random() - 0.5);
-        setShuffled(shuffledPrompts);
-        setCurrentPrompt(shuffledPrompts[0]);
-        setIndex(1);
     }, []);
 
     /* --- State ---*/
@@ -52,17 +42,21 @@ export default function Message() {
     const [message, setMessage] = useState("");
 
     /* Prompts */
+    const {
+        currentPrompt,
+        getNewPrompt
+    } = useWritingPrompts();
+
     const [showPrompts, setShowPrompts] = useState(true);
-    const [currentPrompt, setCurrentPrompt] = useState(PROMPTS[0]);
-    const [shuffled, setShuffled] = useState([]);
-    const [index, setIndex] = useState(0);
+
+    /* Form Errors */
+    const [formError, setFormError] = useState("");
 
     /* Popup */
     const [isPopupClosed, setIsPopupClosed] = useState(false);
 
-    /* --- Current Date --- */
-    const date = new Date().toISOString().split("T")[0];
-    console.log(date);
+    /* Submitting form */
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     /* --- Handlers --- */
     function handleClosePopup() {
@@ -71,44 +65,85 @@ export default function Message() {
 
     function handleCheckinSubmit(e) {
         e.preventDefault();
-
-        console.log({
-            emotion,
-            checkinNote
-        });
-
         setIsPopupClosed(true);
     }
 
-    function handleMessageSubmit(e) {
-        e.preventDefault();
-
-        const archiveEntry = {
-            recipient,
-            subject,
-            emotion,
-            note: checkinNote,
-        };
-
-        console.log(archiveEntry);
-
-        //supabase insert goes here
-
-        resetForm();
-        setIsPopupClosed(false);
+    function handleSelectRecipient(e) {
+        setFormError("");
+        setRecipient(e.target.value);
     }
 
-    function getNewPrompt() {
-        if (index >= shuffled.length) {
-            const reshuffled = [...prompts].sort(() => Math.random() - 0.5);
-            setShuffled(reshuffled);
-            setCurrentPrompt(reshuffled[0]);
-            setIndex(1)
-        } else {
-            setCurrentPrompt(shuffled[index]);
-            setIndex(prev => prev + 1);
+    async function handleMessageSubmit(e) {
+        e.preventDefault();
+
+        setFormError("");
+        setIsSubmitting(true);
+
+        try {
+            /* Current Date */
+            const date = new Date().toLocaleDateString("en-CA");
+
+            /* Selected Contact */
+            const selectedContact = contacts.find((contact) => contact.id === recipient);
+
+            if (!selectedContact) {
+                setFormError("Please select a recipient.");
+                return;
+            }
+
+            const { id: recipientId, name: recipientName, avatar_color: avatarColor } = selectedContact;
+
+            const {
+                data: { user },
+                error: userError
+            } = await supabase.auth.getUser();
+
+            if (userError || !user) {
+                console.log(userError || "No authenticated user.");
+                return;
+            }
+
+            const { error: archiveError } = await supabase
+                .from("message_archive")
+                .insert([
+                    {
+                        recipient_name: recipientName,
+                        recipient_id: recipientId,
+                        subject: subject?.trim() || "",
+                        emotion: emotion?.trim() || "",
+                        note: checkinNote?.trim() || "",
+                        created_at: date,
+                        recipient_avatar_color: avatarColor,
+                        user_id: user.id
+                    }
+                ]);
+
+            if (archiveError) {
+                setFormError(archiveError.message);
+                return;
+            }
+
+            const { error: contactError } = await supabase
+                .from("contacts")
+                .update({
+                    last_written: date
+                })
+                .eq("id", selectedContact.id);
+
+            if (contactError) {
+                setFormError(contactError.message);
+                return;
+            }
+
+            //redirect user
+            navigate("/archive");
+        } catch (error) {
+            console.log(error);
         }
-    };
+        finally {
+            setIsSubmitting(false);
+        }
+    }
 
     /* --- Form Reset --- */
     function resetForm() {
@@ -140,10 +175,10 @@ export default function Message() {
                     <form className="message-form" onSubmit={handleMessageSubmit}>
                         <div className="form-group">
                             <label htmlFor="recipient">To</label>
-                            <select id="recipient" value={recipient} onChange={(e) => setRecipient(e.target.value)}>
+                            <select id="recipient" value={recipient} onChange={handleSelectRecipient}>
                                 <option value=""></option>
                                 {contacts.map((contact) => (
-                                    <option key={contact.id} value={contact.name}>
+                                    <option key={contact.id} value={contact.id}>
                                         {contact.name}
                                     </option>
                                 ))}
@@ -166,7 +201,8 @@ export default function Message() {
                             <textarea value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
                         </div>
                         <div className="button-group">
-                            <Button type="submit" className="btn main-btn">Send Message</Button>
+                            <div className="form-error">{formError}</div>
+                            <Button type="submit" className="btn main-btn" disabled={isSubmitting}>{isSubmitting ? "Saving..." : "Send Message"}</Button>
                         </div>
                     </form>
                 </div>

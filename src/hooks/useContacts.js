@@ -10,7 +10,8 @@ export default function useContacts() {
 
     async function getContacts() {
         const {
-            data: {user}
+            data: {user},
+            error: userError
         } = await supabase.auth.getUser();
 
         if (!user) return;

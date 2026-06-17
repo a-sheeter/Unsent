@@ -112,7 +112,7 @@ h2 {
 .nav-div-width {
     display: flex;
     align-items: center;
-    width:160px;
+    width:270px;
 }
 
 .nav ul {
@@ -169,6 +169,42 @@ h2 {
     padding-left: 15px;
 }
 
+/* --- Avatar --- */
+.contact-name-wrapper {
+    display:flex;
+    align-items: center;
+    gap:12px;
+}
+
+.avatar-circle {
+    width: 37px;
+    height:37px;
+    border-radius: 50%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    color:white;
+    font-size:14px;
+    flex-shrink:0;
+}
+
+.av-blue {
+    background-color: #3C649F;
+}
+
+.av-pink {
+    background-color: #FF3763;
+}
+
+.av-green {
+    background-color: #48AE30;
+}
+
+.av-orange {
+    background-color: #FF8D2A;
+}
+
+
 /* --- Overlays --- */
 .overlay {
     position: fixed;
@@ -198,7 +234,8 @@ th {
 
 td {
     border-top: 1px solid lightgray;
-    padding: 15px 10px;
+    padding: 15px;
+    max-width: 175px;
 }
 
 th {
