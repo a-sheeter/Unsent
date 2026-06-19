@@ -7,7 +7,16 @@
     border-radius: 999px;
     cursor:pointer;
     transition: all 0.3s ease;
+}
 
+.toggle-container {
+    display: flex;
+    align-items: center;
+    gap:15px;
+}
+
+.toggle-container p {
+    text-align: end;
 }
 
 .toggle.on {

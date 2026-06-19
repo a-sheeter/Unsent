@@ -80,10 +80,11 @@ export default function NavBar() {
                 {/* Mobile Menu */}
                 <div id="mobile-menu" className={`mobile-menu ${menuOpen ? "open" : ""}`}>
                     <div id="mobile-nav-icon"><img width="40" src={unsentIcon} alt="Unsent Icon" /></div>
-                    <Link to="/message" onClick={closeMenu}>+Message</Link>
+                    <Link to="/message" onClick={closeMenu}>+ Message</Link>
                     <Link to="/contacts" onClick={closeMenu}>Contacts</Link>
                     <Link to="/archive" onClick={closeMenu}>Archive</Link>
                     <Link to="/profile" onClick={closeMenu}>Profile</Link>
+                    <Link to="/login" onClick={handleLogout}>Log Out</Link>
                 </div>
             </div>
         </nav>

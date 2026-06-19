@@ -51,10 +51,10 @@
 }
 
 .message-form textarea {
+    padding:0;
     padding-top:10px;
     width: 100%;
     min-height: 350px;
-    field-sizing: content;
     resize:none;
 }
 
@@ -73,6 +73,7 @@ select#recipient {
     display: flex;
     width: 100%;
     justify-content: space-between;
+    align-items: start;
 }
 
 .prompt-box button {
@@ -87,10 +88,4 @@ select#recipient {
 
 .prompt-box button:hover {
     color: rgba(0, 0, 0, 0.6);
-}
-
-.toggle-container {
-    display: flex;
-    align-items: center;
-    gap:15px;
 }
