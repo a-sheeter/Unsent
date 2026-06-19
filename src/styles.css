@@ -245,6 +245,39 @@ th {
     gap: 10px;
 }
 
+@media screen and (max-width:768px) {
+    table {
+        width:100%;
+    }
+
+    thead {
+        display:none;
+    }
+
+    tr {
+        display: block;
+        margin-bottom:15px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding:25px 15px;
+    }
+
+    td {
+        display:flex;
+        flex-direction: column;
+        padding:10px;
+        max-width:none;
+        border-top:none;
+    }
+
+    td::before {
+        content: attr(data-label);
+        margin-bottom:8px;
+        font-weight: 600;
+        color: var(--medium-blue);
+    }
+}
+
 /* --- Responsive --- */
 @media screen and (max-width:766px) {
     .desktop-nav {

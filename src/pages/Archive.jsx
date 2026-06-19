@@ -79,7 +79,7 @@ export default function Archive() {
                                 <th>Subject</th>
                                 <th>Date</th>
                                 <th>Optional Note</th>
-                                <th>Actions</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -93,15 +93,15 @@ export default function Archive() {
 
                                 return (
                                     <tr key={message.id}>
-                                        <td><div className="contact-name-wrapper">
+                                        <td data-label="Recipient"><div className="contact-name-wrapper">
                                             <div className={`avatar-circle ${message.recipient_avatar_color}`}>{initials}</div> {message.recipient_name}</div></td>
-                                        <td>{message.emotion}</td>
-                                        <td>{message.subject}</td>
-                                        <td>{message.created_at}</td>
-                                        <td>{message.note}</td>
-                                        <td>
+                                        <td data-label="Emotion">{message.emotion}</td>
+                                        <td data-label="Subject">{message.subject}</td>
+                                        <td data-label="Date">{message.created_at}</td>
+                                        <td data-label="Optional Note">{message.note}</td>
+                                        <td data-label="Action">
                                             <div className="table-actions">
-                                                <Button type="button" className="underline-btn">Edit</Button><Button type="button" className="underline-btn" onClick={() => deleteArchive(message.id)}>Delete</Button>
+                                                <Button type="button" className="underline-btn" onClick={() => deleteArchive(message.id)}>Delete</Button>
                                             </div>
                                         </td>
                                     </tr>

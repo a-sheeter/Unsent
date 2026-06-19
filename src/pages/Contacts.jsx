@@ -187,7 +187,7 @@ export default function Contacts() {
                             <tr>
                                 <th>Name</th>
                                 <th>Relationship Type</th>
-                                <th>Last written</th>
+                                <th>Last Written</th>
                                 <th>Optional Note</th>
                                 <th>Actions</th>
                             </tr>
@@ -203,7 +203,7 @@ export default function Contacts() {
 
                                 return (
                                     <tr key={contact.id}>
-                                        <td>
+                                        <td data-label="Name">
                                             <div className="contact-name-wrapper">
                                                 <div className={`avatar-circle ${contact.avatar_color}`}>
                                                     {initials}
@@ -211,10 +211,10 @@ export default function Contacts() {
                                                 <span>{contact.name}</span>
                                             </div>
                                         </td>
-                                        <td>{contact.relationship}</td>
-                                        <td>{contact.last_written}</td>
-                                        <td>{contact.note}</td>
-                                        <td>
+                                        <td data-label="Relationship Type">{contact.relationship}</td>
+                                        <td data-label="Last Written">{contact.last_written}</td>
+                                        <td data-label="Optional Note">{contact.note}</td>
+                                        <td data-label="Actions">
                                             <div className="table-actions">
                                                 <Button type="button" className="underline-btn"
                                                     onClick={() => handleEditContact(contact)}
