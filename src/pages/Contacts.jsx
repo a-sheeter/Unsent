@@ -36,7 +36,7 @@ export default function Contacts() {
 
     /* --- Popup handlers --- */
     function handleOpenPopup() {
-        setIsPopupClosed(false)
+        setIsPopupClosed(false);
     }
 
     function handleClosePopup() {
@@ -156,12 +156,11 @@ export default function Contacts() {
 
                     <div>
                         <label htmlFor="note">Optional Note</label>
-                        <input
+                        <textarea
                             id="note"
-                            type="text"
                             value={note}
                             onChange={(e) => setNote(e.target.value)}
-                        />
+                        ></textarea>
                     </div>
                     {formError && (
                         <div className="form-error">
@@ -170,7 +169,6 @@ export default function Contacts() {
                     )}
                     <div className="two-btns"><Button className="btn outline-btn" type="button" onClick={handleClosePopup}>Close</Button>
                         <Button className="btn secondary-btn" type="submit">{editingContact ? "Save Changes" : "Add New Contact"}</Button></div>
-
                 </form>
             </PopupContainer>
 
