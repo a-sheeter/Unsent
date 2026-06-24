@@ -2,10 +2,10 @@
 
 <img width="1337" height="867" alt="Screenshot 2026-06-19 at 10 40 01 AM" src="/src/assets/message_screen.png" />
 
-<p style="text-decoration:underline;"><strong>Tagline</strong><br>
+<p><strong>Tagline</strong><br>
 A safe place for the words that need to be said without the risk of digital permanence.</p>
 
-<p style="text-decoration:underline;"><strong>Overview</strong><br>
+<p><strong>Overview</strong><br>
 Unsent is a privacy-first emotional processing application built around the psychology of the unsent letter. Users can write messages to people in their lives without the risk of those messages being delivered, stored, or shared. By combining expressive writing techniques with emotional check-ins, Unsent provides a structured environment for reflection, emotional regulation, and difficult conversation rehearsal.
 <br><br>
 Rather than functioning as a messaging platform, journal, or social network, Unsent is intentionally focused on a single purpose: helping people process thoughts and emotions safely. Users can track personal growth through emotional insights and writing patterns while maintaining complete separation between emotional expression and digital permanence.

@@ -42,35 +42,39 @@ export default function Login() {
         <>
             <GenericNav />
             <div className="main-container center-screen login-signup">
-                <form onSubmit={handleLogin}>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        id="email"
-                        type="email"
-                        autoComplete="email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+                <p>Some things need to be said, but not necessarily sent.
+                    <br></br>
+                        Unsent is a private space for writing messages you'll never send. Whether you're processing anger, grief, disappointment, love, or unresolved conversations, Unsent helps you put thoughts into words without the pressure, consequences, or permanence of real-world communication. Write freely, reflect on what you're feeling, and release what you're carrying—knowing your words stay yours.</p>
 
-                    <label htmlFor="password">Password</label>
-                    <input
-                        id="password"
-                        type="password"
-                        required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                        <form onSubmit={handleLogin}>
+                            <label htmlFor="email">Email</label>
+                            <input
+                                id="email"
+                                type="email"
+                                autoComplete="email"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
 
-                    <Button className="main-btn btn" type="submit">Login</Button>
+                            <label htmlFor="password">Password</label>
+                            <input
+                                id="password"
+                                type="password"
+                                required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
 
-                    {
-                        errorMessage && <p>{errorMessage}</p>
-                    }
-                </form>
-                <p>Don't have an account? <Link to="/signup">Register Now</Link></p>
-            </div>
-        </>
-    )
+                            <Button className="main-btn btn" type="submit">Login</Button>
+
+                            {
+                                errorMessage && <p>{errorMessage}</p>
+                            }
+                        </form>
+                        <p>Don't have an account? <Link to="/signup">Register Now</Link></p>
+                    </div>
+                </>
+                )
 
 }
