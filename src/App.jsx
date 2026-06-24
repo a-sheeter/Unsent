@@ -14,6 +14,7 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import PublicRoute from "./auth/PublicRoute";
 
 // Pages
+import About from "./pages/About";
 import Contacts from "./pages/Contacts";
 import Archive from "./pages/Archive";
 import Message from "./pages/Message";
@@ -68,6 +69,14 @@ export default function App() {
             <Routes>
 
                 {/* Public Routes */}
+                <Route
+                    path="/about"
+                    element={
+                        <PublicRoute user={user}>
+                            <About/>
+                        </PublicRoute>
+                    }
+                />
                 <Route
                     path="/signup"
                     element={

@@ -79,6 +79,12 @@ h2 {
     color: gray;
 }
 
+.about-info {
+    color:var(--dark-blue);
+    text-align: center;
+    max-width: 650px;
+}
+
 /* --- Navigation --- */
 
 .nav {

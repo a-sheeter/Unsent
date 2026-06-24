@@ -42,10 +42,6 @@ export default function Login() {
         <>
             <GenericNav />
             <div className="main-container center-screen login-signup">
-                <p>Some things need to be said, but not necessarily sent.
-                    <br></br>
-                        Unsent is a private space for writing messages you'll never send. Whether you're processing anger, grief, disappointment, love, or unresolved conversations, Unsent helps you put thoughts into words without the pressure, consequences, or permanence of real-world communication. Write freely, reflect on what you're feeling, and release what you're carrying—knowing your words stay yours.</p>
-
                         <form onSubmit={handleLogin}>
                             <label htmlFor="email">Email</label>
                             <input
