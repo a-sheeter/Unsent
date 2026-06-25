@@ -31,7 +31,7 @@ export default function Contacts() {
 
     /* --- Effects --- */
     useEffect(() => {
-        document.title = "Contacts";
+        document.title = "Contacts | Unsent";
     }, []);
 
     /* --- Popup handlers --- */

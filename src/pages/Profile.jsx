@@ -19,7 +19,7 @@ export default function Profile() {
 
     /* --- Effects ---*/
     useEffect(() => {
-        document.title = "Profile";
+        document.title = "Profile | Unsent";
     }, []);
 
     useEffect(() => {

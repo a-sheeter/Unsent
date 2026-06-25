@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { supabase } from "../../utilities/supabase";
@@ -9,6 +9,10 @@ import GenericNav from "../components/GenericNav";
 import "../styles/login-signup.css";
 
 export default function Signup() {
+    /* --- Effect --- */
+    useEffect(() => {
+        document.title = "Register | Unsent";
+    }, []);
 
     /* --- State --- */
     const [name, setName] = useState("");

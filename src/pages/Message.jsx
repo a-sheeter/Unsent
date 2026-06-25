@@ -23,7 +23,7 @@ export default function Message() {
 
     /* --- Effects --- */
     useEffect(() => {
-        document.title = "Message";
+        document.title = "Message | Unsent";
     }, []);
 
     /* --- State ---*/

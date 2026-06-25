@@ -15,7 +15,7 @@ import "../styles/checkin-form.css";
 export default function Archive() {
     /* --- Effects --- */
     useEffect(() => {
-        document.title = "Archive";
+        document.title = "Archive | Unsent";
     }, []);
 
     useEffect(() => {

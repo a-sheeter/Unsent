@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { supabase } from "../../utilities/supabase";
@@ -10,6 +10,11 @@ import "../styles/login-signup.css";
 
 export default function Login() {
     const navigate = useNavigate();
+
+    /* --- Effect --- */
+    useEffect(() => {
+        document.title = "Login | Unsent";
+    }, []);
 
     /* --- State --- */
     const [email, setEmail] = useState("");
